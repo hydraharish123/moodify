@@ -7,6 +7,7 @@ import {
 } from "react-icons/hi2";
 import { BiHistory } from "react-icons/bi";
 import { MdFavoriteBorder } from "react-icons/md";
+import { TbCapture } from "react-icons/tb";
 
 const NavList = styled.ul`
   display: flex;
@@ -63,13 +64,19 @@ function MainNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/bookings">
+          <StyledNavLink to="/recommend">
+            <TbCapture />
+            <span>Recommend</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/favorites">
             <MdFavoriteBorder />
             <span>Favorites</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/cabins">
+          <StyledNavLink to="/history">
             <BiHistory />
             <span>History</span>
           </StyledNavLink>

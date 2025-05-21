@@ -7,7 +7,7 @@ const StyledHeader = styled.header`
 `;
 
 function Header() {
-  return <StyledHeader>Welcome to Moodify</StyledHeader>;
+  return <StyledHeader>Logout</StyledHeader>;
 }
 
 export default Header;
