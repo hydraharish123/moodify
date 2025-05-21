@@ -5,6 +5,9 @@ import Dashboard from "./pages/Dashboard";
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import { Toaster } from "react-hot-toast";
+import LoginWithSpotify from "./test/LoginWithSpotify";
+import CallbackHandler from "./test/CallbackHandler";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,9 +26,16 @@ function App() {
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
+          {/* Public login route */}
+          <Route path="/" element={<LoginWithSpotify />} />
+
+          {/* Callback handler route (Spotify redirects here) */}
+          <Route path="/callback" element={<CallbackHandler />} />
+
+          {/* Protected area wrapped with AppLayout */}
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate replace to="dashboard" />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>
       </BrowserRouter>

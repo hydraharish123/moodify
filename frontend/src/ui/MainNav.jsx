@@ -1,10 +1,6 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import {
-  HiOutlineCalendarDays,
-  HiOutlineCog6Tooth,
-  HiOutlineHome,
-} from "react-icons/hi2";
+import { HiOutlineCog6Tooth, HiOutlineHome } from "react-icons/hi2";
 import { BiHistory } from "react-icons/bi";
 import { MdFavoriteBorder } from "react-icons/md";
 import { TbCapture } from "react-icons/tb";

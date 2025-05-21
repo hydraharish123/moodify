@@ -2,12 +2,16 @@ import styled from "styled-components";
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
-  padding: 2.4rem 4.8rem;
+  padding: 1.5rem 4.8rem;
   border-bottom: 1px solid var(--color-grey-100);
 `;
 
-function Header() {
-  return <StyledHeader>Logout</StyledHeader>;
+function Header({ name }) {
+  return (
+    <StyledHeader>
+      <p>Hi {name}</p>
+    </StyledHeader>
+  );
 }
 
 export default Header;
