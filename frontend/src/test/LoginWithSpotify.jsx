@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-const client_id = import.meta.env.REACT_APP_CLIENT_ID;
+const client_id = import.meta.env.VITE_CLIENT_ID;
+console.log(client_id);
 const redirect_uri = "http://127.0.0.1:5173/callback";
 const scope = [
   "user-read-private",

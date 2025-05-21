@@ -2,13 +2,16 @@ from flask import Flask, request, jsonify
 import requests
 from flask_cors import CORS
 from dotenv import load_dotenv
-load_dotenv()
+import os
 
 app = Flask(__name__)
 CORS(app)
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', 'frontend', '.env')
+print(dotenv_path)
+load_dotenv(dotenv_path)
 
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+CLIENT_ID = os.getenv("VITE_CLIENT_ID")
+CLIENT_SECRET = os.getenv("VITE_CLIENT_SECRET")
 REDIRECT_URI = "http://127.0.0.1:5173/callback"
 TOKEN_URL = "https://accounts.spotify.com/api/token"
 
