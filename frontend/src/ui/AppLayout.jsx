@@ -74,7 +74,7 @@ function AppLayout() {
 
   return (
     <StyledAppLayout>
-      <Header name={profile?.display_name} />
+      <Header name={profile?.display_name} img_obj={profile?.images[0]} />
       <Sidebar />
       <Main>
         <Container>

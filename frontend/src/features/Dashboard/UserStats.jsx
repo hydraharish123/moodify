@@ -91,7 +91,7 @@ function UserStats() {
             onClick={() => setShowLegend(!showLegend)}
             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
           >
-            Mood Score Legend
+            Mood Label Legend
           </button>
           {showLegend && (
             <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-lg z-10">

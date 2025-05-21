@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import LoginWithSpotify from "./test/LoginWithSpotify";
 import CallbackHandler from "./test/CallbackHandler";
 import Settings from "./pages/Settings";
+import Recommend from "./pages/Recommend";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +37,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="recommend" element={<Recommend />} />
           </Route>
         </Routes>
       </BrowserRouter>
