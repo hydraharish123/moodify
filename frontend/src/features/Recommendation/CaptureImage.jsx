@@ -1,27 +1,32 @@
 import { Dialog } from "@headlessui/react";
 import React, { useRef, useState, useEffect } from "react";
+import Spinner from "../../ui/Spinner";
 
 function CaptureImage() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [emotion, setEmotion] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const getMedia = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
+    if (capturedImage === null) {
+      const getMedia = async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        } catch (err) {
+          console.error("Error accessing webcam: ", err);
         }
-      } catch (err) {
-        console.error("Error accessing webcam: ", err);
-      }
-    };
-    getMedia();
-  }, []);
+      };
+      getMedia();
+    }
+  }, [capturedImage]);
 
   const handleCapture = () => {
     const video = videoRef.current;
@@ -38,6 +43,31 @@ function CaptureImage() {
     }
   };
 
+  async function handleUploadImage() {
+    try {
+      setIsLoading(true);
+      const res = await fetch("http://127.0.0.1:5000/api/detect-emotion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ image: capturedImage }),
+      });
+
+      if (!res.ok) throw new Error("Failed to detect emotion");
+
+      const data = await res.json();
+      console.log(data);
+      setEmotion(data);
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  if (isLoading) return <Spinner />;
+
   return (
     <>
       <Dialog open={isOpen} onClose={() => {}} className="z-1001 relative">
@@ -52,7 +82,10 @@ function CaptureImage() {
                 Captured Image
               </Dialog.Title>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setCapturedImage(null);
+                  setIsOpen(false);
+                }}
                 className="text-gray-500 transition hover:text-black"
                 aria-label="Close modal"
               >
@@ -70,12 +103,21 @@ function CaptureImage() {
                 </div>
                 <div className="flex gap-4">
                   <button
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setCapturedImage(null);
+                      setIsOpen(false);
+                    }}
                     className="mt-4 w-full rounded-md bg-[var(--color-grey-0)] px-4 py-3 text-lg font-semibold text-white"
                   >
                     Capture New Image
                   </button>
-                  <button className="mt-4 w-full rounded-md bg-[var(--color-grey-0)] px-4 py-3 text-lg font-semibold text-white">
+                  <button
+                    onClick={() => {
+                      handleUploadImage();
+                      setIsOpen(false);
+                    }}
+                    className="mt-4 w-full rounded-md bg-[var(--color-grey-0)] px-4 py-3 text-lg font-semibold text-white"
+                  >
                     Recommend songs/playlists
                   </button>
                 </div>
@@ -84,20 +126,41 @@ function CaptureImage() {
           </Dialog.Panel>
         </div>
       </Dialog>
-      <div className="border-2 border-dashed border-white rounded-lg p-4 space-y-4 bg-black">
-        <h2 className="text-white text-lg font-semibold">Capture Image</h2>
+      {!capturedImage && (
+        <div className="border-2 border-dashed border-white rounded-lg p-4 space-y-4 bg-black">
+          <h2 className="text-white text-lg font-semibold">Capture Image</h2>
 
-        <video ref={videoRef} autoPlay className="rounded shadow w-full" />
+          <video
+            ref={videoRef}
+            autoPlay
+            className="rounded shadow w-full transform-none"
+          />
 
-        <button
-          onClick={handleCapture}
-          className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
-        >
-          Capture
-        </button>
+          <button
+            onClick={handleCapture}
+            className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200"
+          >
+            Capture
+          </button>
 
-        <canvas ref={canvasRef} style={{ display: "none" }} />
-      </div>
+          <canvas ref={canvasRef} style={{ display: "none" }} />
+        </div>
+      )}
+
+      {capturedImage && emotion && (
+        <div>
+          <div className="flex justify-between items-center">
+            <h1 className="text-3xl text-white font-bold">Mood</h1>
+
+            <button
+              onClick={() => setCapturedImage(null)}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
+            >
+              Capture Image Again
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -85,7 +85,6 @@ function UserStats() {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl text-white font-bold">User Mood Statistics</h1>
 
-        {/* Legend Dropdown */}
         <div className="relative">
           <button
             onClick={() => setShowLegend(!showLegend)}
