@@ -1,6 +1,8 @@
 import { Dialog } from "@headlessui/react";
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Spinner from "../../ui/Spinner";
+import TrackTable from "./TrackTable";
+import { useSearchParams } from "react-router-dom";
 
 function CaptureImage() {
   const videoRef = useRef(null);
@@ -9,11 +11,14 @@ function CaptureImage() {
   const [isOpen, setIsOpen] = useState(false);
   const [emotion, setEmotion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     if (capturedImage === null) {
       const getMedia = async () => {
         try {
+          searchParams.delete("page");
+          setSearchParams(searchParams);
           const stream = await navigator.mediaDevices.getUserMedia({
             video: true,
           });
@@ -148,16 +153,25 @@ function CaptureImage() {
       )}
 
       {capturedImage && emotion && (
-        <div>
+        <div className="flex flex-col gap-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl text-white font-bold">Mood</h1>
+            <h1 className="text-3xl text-white font-bold">
+              Mood - {emotion?.dominant_emotion}
+            </h1>
 
             <button
-              onClick={() => setCapturedImage(null)}
+              onClick={() => {
+                setCapturedImage(null);
+                setEmotion(null);
+              }}
               className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
             >
               Capture Image Again
             </button>
+          </div>
+
+          <div>
+            <TrackTable emotion={emotion} />
           </div>
         </div>
       )}
