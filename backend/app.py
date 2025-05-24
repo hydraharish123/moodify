@@ -117,7 +117,8 @@ def detect_emotion():
                         'track_number': i,
                         'track_name': name,
                         'artists': artist_names,
-                        'spotify_url': url
+                        'spotify_url': url,
+                        'favorite': False,
                     }
 
                 all_tracks_info.append(track_info)
@@ -130,7 +131,7 @@ def detect_emotion():
         'tracks': all_tracks_info
     })
 
-def search_playlists(keyword, limit=10):
+def search_playlists(keyword, limit=1):
     results = sp.search(q=keyword, type='playlist', limit=limit)
     playlists = results['playlists']['items']
     return playlists

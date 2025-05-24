@@ -14,11 +14,21 @@ function CaptureImage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (capturedImage === null) {
+    const songsView = searchParams.get("songs") === "true";
+
+    if (songsView && !emotion) {
+      // Optional: You can fetch saved emotion from localStorage or skip capture
+      // For now, just prevent webcam access
+      return;
+    }
+
+    if (capturedImage === null && !songsView) {
       const getMedia = async () => {
         try {
           searchParams.delete("page");
+          searchParams.set("songs", false);
           setSearchParams(searchParams);
+
           const stream = await navigator.mediaDevices.getUserMedia({
             video: true,
           });
@@ -31,7 +41,7 @@ function CaptureImage() {
       };
       getMedia();
     }
-  }, [capturedImage]);
+  }, [capturedImage, emotion, searchParams, setSearchParams]);
 
   const handleCapture = () => {
     const video = videoRef.current;
@@ -64,6 +74,8 @@ function CaptureImage() {
       const data = await res.json();
       console.log(data);
       setEmotion(data);
+      searchParams.set("songs", true);
+      setSearchParams(searchParams);
     } catch (err) {
       console.error(err.message);
     } finally {
@@ -152,7 +164,7 @@ function CaptureImage() {
         </div>
       )}
 
-      {capturedImage && emotion && (
+      {searchParams.get("songs") === "true" && emotion && (
         <div className="flex flex-col gap-8">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl text-white font-bold">
@@ -163,6 +175,8 @@ function CaptureImage() {
               onClick={() => {
                 setCapturedImage(null);
                 setEmotion(null);
+                searchParams.set("songs", false);
+                setSearchParams(searchParams);
               }}
               className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition"
             >

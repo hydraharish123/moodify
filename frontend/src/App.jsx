@@ -9,6 +9,7 @@ import LoginWithSpotify from "./test/LoginWithSpotify";
 import CallbackHandler from "./test/CallbackHandler";
 import Settings from "./pages/Settings";
 import Recommend from "./pages/Recommend";
+import Favorites from "./pages/Favorites";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +39,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="settings" element={<Settings />} />
             <Route path="recommend" element={<Recommend />} />
+            <Route path="favorites" element={<Favorites />} />
           </Route>
         </Routes>
       </BrowserRouter>
