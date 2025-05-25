@@ -1,14 +1,12 @@
 function RecommendDescription() {
   return (
     <p>
-      Lorem ipsum dolor sit amet consectetur adipiscing elit. Ex sapien vitae
-      pellentesque sem placerat in id. Pretium tellus duis convallis tempus leo
-      eu aenean. Urna tempor pulvinar vivamus fringilla lacus nec metus. Iaculis
-      massa nisl malesuada lacinia integer nunc posuere. Semper vel class aptent
-      taciti sociosqu ad litora. Conubia nostra inceptos himenaeos orci varius
-      natoque penatibus. Dis parturient montes nascetur ridiculus mus donec
-      rhoncus. Nulla molestie mattis scelerisque maximus eget fermentum odio.
-      Purus est efficitur laoreet mauris pharetra vestibulum fusce.
+      Capture your current emotion with a simple click, and let Moodify analyze
+      your mood using advanced DeepFace technology. Based on your detected
+      emotion, we provide a personalized list of tracks curated just for you.
+      Listen to the recommended songs, discover new favorites, and save the
+      tracks that resonate with your vibe to your personal playlist. Music that
+      truly matches how you feel—just a tap away.
     </p>
   );
 }

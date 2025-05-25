@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import supabase from "../services/supabase"; // adjust path if needed
+import supabase from "../../services/supabase";
 
 const CallbackHandler = () => {
   const [searchParams] = useSearchParams();
@@ -12,7 +12,7 @@ const CallbackHandler = () => {
       if (!code) return;
 
       try {
-        // Step 1: Exchange code for tokens from Flask backend
+        // Step 1: Exchange code for tokens
         const res = await fetch("http://127.0.0.1:5000/api/spotify/callback", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -26,7 +26,7 @@ const CallbackHandler = () => {
         const { access_token, refresh_token } = tokenData;
         const token_created = new Date().toISOString();
 
-        // Step 2: Get Spotify user profile
+        // Step 2: Get Spotify profile
         const profileRes = await fetch("https://api.spotify.com/v1/me", {
           headers: {
             "Content-Type": "application/json",
@@ -43,20 +43,42 @@ const CallbackHandler = () => {
 
         const profile = await profileRes.json();
         const spotify_id = profile.id;
+        const username = profile.display_name;
+        const image = profile.images?.[0]?.url || "";
 
-        // Step 3: Upsert user into Supabase
-        const { error } = await supabase.from("users").upsert(
+        // Step 3: Check if user already exists
+        const { data: existingUser, error: fetchError } = await supabase
+          .from("users")
+          .select("favorites, past_moods")
+          .eq("spotify_id", spotify_id)
+          .single();
+
+        if (fetchError && fetchError.code !== "PGRST116") {
+          throw new Error(`Supabase fetch error: ${fetchError.message}`);
+        }
+
+        const favorites = existingUser?.favorites || [];
+        const past_moods = existingUser?.past_moods || [];
+
+        // Step 4: Upsert user while preserving existing data
+        const { error: upsertError } = await supabase.from("users").upsert(
           {
             spotify_id,
             access_token,
             refresh_token,
             token_created,
+            username,
+            image,
+            favorites,
+            past_moods,
           },
           { onConflict: ["spotify_id"] }
         );
 
-        if (error) throw new Error(`Supabase insert error: ${error.message}`);
+        if (upsertError)
+          throw new Error(`Supabase upsert error: ${upsertError.message}`);
 
+        // Step 5: Redirect to dashboard
         window.location.href = `/dashboard?spotify_id=${spotify_id}`;
       } catch (err) {
         console.error("Spotify callback error:", err.message);

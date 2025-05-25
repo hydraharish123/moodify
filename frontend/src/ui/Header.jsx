@@ -9,10 +9,10 @@ const StyledHeader = styled.header`
   gap: 2.4rem;
 `;
 
-function Header({ name, img_obj }) {
+function Header({ name, image }) {
   return (
     <StyledHeader>
-      <img src={img_obj?.url} width={30} height={30} className="rounded-3xl" />
+      <img src={image} height={30} width={30} className="rounded-md" />
       <p>
         Hi <strong>{name}</strong> !!
       </p>

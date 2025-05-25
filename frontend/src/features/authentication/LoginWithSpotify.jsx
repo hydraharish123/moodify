@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import supabase from "../services/supabase";
+import supabase from "../../services/supabase";
 
 const client_id = import.meta.env.VITE_CLIENT_ID;
 console.log(client_id);
@@ -62,7 +62,6 @@ const LoginWithSpotify = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-black text-white font-sans">
       <div className="bg-[#1c1c1c] px-12 py-12 rounded-2xl shadow-xl flex flex-col items-center w-full max-w-xl">
-        {/* Spotify Icon */}
         <div className="mb-6 text-green-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +74,6 @@ const LoginWithSpotify = () => {
           </svg>
         </div>
 
-        {/* Headline */}
         <h1 className="text-3xl font-extrabold mb-4 tracking-tight">
           Welcome to Moodify
         </h1>
@@ -83,7 +81,6 @@ const LoginWithSpotify = () => {
           Login to continue with your Spotify account
         </p>
 
-        {/* Login Button */}
         <button
           onClick={login}
           className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-full text-xl transition duration-300 w-full text-center"
@@ -96,13 +93,3 @@ const LoginWithSpotify = () => {
 };
 
 export default LoginWithSpotify;
-
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width={48}
-  height={48}
-  fill="currentColor"
-  viewBox="0 0 24 24"
->
-  <path d="M12.01 2.019c-5.495 0-9.991 4.496-9.991 9.991S6.515 22 12.01 22 22 17.504 22 12.01c0-5.495-4.446-9.991-9.99-9.991m4.595 14.436c-.199.299-.549.4-.85.201-2.349-1.45-5.296-1.75-8.793-.951-.348.102-.648-.148-.748-.449-.101-.35.149-.648.45-.749 3.795-.85 7.093-.499 9.69 1.1.35.149.4.548.251.848m1.2-2.747c-.251.349-.7.499-1.051.249-2.697-1.646-6.792-2.148-9.939-1.148-.398.101-.85-.1-.949-.498-.101-.402.1-.852.499-.952 3.646-1.098 8.143-.548 11.239 1.351.3.149.45.648.201.998m.099-2.799c-3.197-1.897-8.542-2.097-11.59-1.146a.94.94 0 0 1-1.148-.6.937.937 0 0 1 .599-1.151c3.547-1.049 9.392-.85 13.089 1.351.449.249.599.849.349 1.298-.25.35-.849.498-1.299.248"></path>
-</svg>;

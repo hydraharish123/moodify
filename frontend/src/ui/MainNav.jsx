@@ -1,7 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { HiOutlineCog6Tooth, HiOutlineHome } from "react-icons/hi2";
-import { BiHistory } from "react-icons/bi";
 import { MdFavoriteBorder } from "react-icons/md";
 import { TbCapture } from "react-icons/tb";
 
@@ -50,35 +49,36 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function MainNav() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const spotify_id = searchParams.get("spotify_id");
+
+  const appendSpotifyId = (path) =>
+    spotify_id ? `${path}?spotify_id=${spotify_id}` : path;
+
   return (
     <nav>
       <NavList>
         <li>
-          <StyledNavLink to="/dashboard">
+          <StyledNavLink to={appendSpotifyId("/dashboard")}>
             <HiOutlineHome />
             <span>Home</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/recommend">
+          <StyledNavLink to={appendSpotifyId("/recommend")}>
             <TbCapture />
             <span>Recommend</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/favorites">
+          <StyledNavLink to={appendSpotifyId("/favorites")}>
             <MdFavoriteBorder />
             <span>Favorites</span>
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/history">
-            <BiHistory />
-            <span>History</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/settings">
+          <StyledNavLink to={appendSpotifyId("/settings")}>
             <HiOutlineCog6Tooth />
             <span>Settings</span>
           </StyledNavLink>

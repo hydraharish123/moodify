@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import Spinner from "../../ui/Spinner";
 import TrackTable from "./TrackTable";
 import { useSearchParams } from "react-router-dom";
+import { useAppendMood } from "./useAppendMood";
 
 function CaptureImage() {
   const videoRef = useRef(null);
@@ -12,6 +13,8 @@ function CaptureImage() {
   const [emotion, setEmotion] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { appendMood } = useAppendMood();
+  const spotify_id = searchParams.get("spotify_id");
 
   useEffect(() => {
     const songsView = searchParams.get("songs") === "true";
@@ -76,6 +79,13 @@ function CaptureImage() {
       setEmotion(data);
       searchParams.set("songs", true);
       setSearchParams(searchParams);
+      appendMood({
+        spotify_id: spotify_id,
+        mood: {
+          mood: data?.dominant_emotion,
+          timestamp: new Date().toISOString(),
+        },
+      });
     } catch (err) {
       console.error(err.message);
     } finally {

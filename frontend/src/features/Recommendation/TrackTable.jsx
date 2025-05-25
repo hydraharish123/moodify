@@ -6,6 +6,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useAppendFavorite } from "./useAppendFavorite";
 
 export default function TrackTable({ emotion }) {
   const [searchParams] = useSearchParams();
@@ -18,10 +19,26 @@ export default function TrackTable({ emotion }) {
   const end = start + PAGE_SIZE;
   const paginatedTracks = allTracks.slice(start, end);
 
+  const spotify_id = searchParams.get("spotify_id");
+  const { appendFavorite } = useAppendFavorite();
+
   function handleAddToFavorite(i) {
     console.log(allTracks[i]);
     allTracks[i]["favorite"] = true;
-    toast.success("Track added to favorites");
+    const track = allTracks[i];
+    console.log(track);
+    if (!spotify_id) {
+      toast.error("User not identified");
+      return;
+    }
+
+    appendFavorite(
+      { spotify_id, track },
+      {
+        onSuccess: () => toast.success("Track added to favorites"),
+        onError: (error) => toast.error(`Error: ${error.message}`),
+      }
+    );
   }
 
   return (

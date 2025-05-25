@@ -1,9 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { checkTokenExpiry } from "../services/checkExpiry";
+import { useEffect } from "react";
+import { checkTokenExpiry } from "../hooks/checkExpiry";
+import { useProfile } from "../features/Dashboard/useProfile";
+import Spinner from "../ui/Spinner";
 
 const StyledAppLayout = styled.div`
   display: grid;
@@ -27,54 +29,25 @@ const Container = styled.div`
 `;
 
 function AppLayout() {
-  const [accessToken, setAccessToken] = useState(null);
-  const [profile, setProfileData] = useState(null);
-
-  async function profileData(token) {
-    try {
-      console.log(token);
-      const response = await fetch("https://api.spotify.com/v1/me", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(
-          `Failed to fetch genre seeds: ${response.status} - ${errorText}`
-        );
-      }
-
-      const data = await response.json();
-      console.log(data);
-      setProfileData(data);
-    } catch (error) {
-      console.error("Error fetching genres:", error);
-    }
-  }
+  const [searchParams] = useSearchParams();
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-    setAccessToken(token);
-
-    if (token) {
-      profileData(token);
-    }
-  }, []);
-
-  useEffect(() => {
-    checkTokenExpiry();
+    const spotify_id = searchParams.get("spotify_id");
+    checkTokenExpiry(spotify_id);
 
     const intervalId = setInterval(() => {
-      checkTokenExpiry();
-    }, 30000);
+      checkTokenExpiry(spotify_id);
+    }, 10000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [searchParams]);
+
+  const { data, isLoading } = useProfile();
+
+  if (isLoading) return <Spinner />;
 
   return (
     <StyledAppLayout>
-      <Header name={profile?.display_name} img_obj={profile?.images[0]} />
+      <Header name={data?.[0]?.username} image={data?.[0]?.image} />
       <Sidebar />
       <Main>
         <Container>
