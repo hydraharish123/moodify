@@ -85,5 +85,71 @@ Music can modulate physiological arousal:
 
 * **Supabase** – PostgreSQL-based backend for storing user data (emotions, song history, favorites) and handling authentication
 
+  
+
+## 🚀 Getting Started
+
+
+### 📁 Project Structure
+
+```
+moodify/
+├── backend/        # Flask backend
+└── frontend/       # React frontend
+```
+
+
+## ⚙️ Backend Setup (Flask with Python 3.11)
+
+1. **Navigate to the backend folder:**
+
+   ```bash
+   cd backend
+   ```
+
+2. **Create and activate a virtual environment (Python 3.11):**
+
+   ```bash
+   python3.11 -m venv venv
+   source moodify-env/bin/activate  # On Windows: moodify-env\Scripts\activate
+   ```
+
+3. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run the Flask server:**
+
+   ```bash
+   python app.py
+   ```
+
+   > By default, the backend runs at `http://127.0.0.1:5000`.
+
+---
+
+## 💻 Frontend Setup (React)
+
+1. **Navigate to the frontend folder:**
+
+   ```bash
+   cd frontend
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the React development server:**
+
+   ```bash
+   npm run dev
+   ```
+   
+> The frontend runs at `http://127.0.0.1:5173`.
 
 
