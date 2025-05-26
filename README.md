@@ -53,9 +53,6 @@ Music can modulate physiological arousal:
 * **🎶 Emotion-Based Music Recommendations**
   Matches the detected emotion to curated Spotify playlists and mood-specific genres (e.g., sad → acoustic, happy → pop), delivering personalized music suggestions aligned with the user’s current mood.
 
-* **🧠 Mood-to-Genre Mapping**
-  Each detected emotion is intelligently mapped to specific music genres that reflect or enhance the mood, creating a deeper emotional connection through music.
-
 * **▶️ Spotify Song Player (Navigates to Spotify)**
   Users can listen to Spotify song by clicking on suggested tracks.
 
