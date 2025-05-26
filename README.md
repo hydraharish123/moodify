@@ -56,8 +56,8 @@ Music can modulate physiological arousal:
 * **🧠 Mood-to-Genre Mapping**
   Each detected emotion is intelligently mapped to specific music genres that reflect or enhance the mood, creating a deeper emotional connection through music.
 
-* **▶️ Interactive Song Playback**
-  Users can listen to Spotify song previews directly from the app by clicking on suggested tracks.
+* **▶️ Spotify Song Player (Navigates to Spotify)**
+  Users can listen to Spotify song by clicking on suggested tracks.
 
 * **⭐ Favorite Songs**
   Allows users to mark songs as favorites so they can easily revisit the tracks that resonated most with their mood.
