@@ -77,7 +77,7 @@ Music can modulate physiological arousal:
 
 **Backend:**
 
-* **Flask (Python)** – REST API for emotion detection and communication with Spotify/Supabase
+* **Flask (Python)** – for emotion detection and communication with Spotify/Supabase
 * **DeepFace** – Facial emotion recognition from webcam input
 * **Spotipy** – Fetching and playing mood-aligned music
 
